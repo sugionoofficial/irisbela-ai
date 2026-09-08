@@ -2,6 +2,80 @@
 <html lang="id">
 
 <head>
+  <!-- === SISTEM LOGIN & KREDIT IRISBELA AI === -->
+<script>
+  // Cek apakah sudah login
+  const sudahLogin = sessionStorage.getItem('sudahLogin');
+  if (!sudahLogin) {
+    window.location.replace('/login.html');
+  }
+  
+  // Tampilkan data pengguna yang sedang login
+  const emailPengguna = sessionStorage.getItem('emailPengguna') || 'Tidak diketahui';
+  const kreditPengguna = parseInt(sessionStorage.getItem('kreditPengguna')) || 0;
+  
+  // Fungsi untuk mengurangi kredit saat fitur dipakai
+  function kurangiKredit(jumlah) {
+    let sisa = parseInt(sessionStorage.getItem('kreditPengguna')) || 0;
+    if (sisa >= jumlah) {
+      sisa = sisa - jumlah;
+      sessionStorage.setItem('kreditPengguna', sisa);
+      return { berhasil: true, sisaKredit: sisa };
+    }
+    return { berhasil: false, sisaKredit: sisa, pesan: 'Kredit tidak cukup!' };
+  }
+</script>
+<style>
+  /* Tampilan kotak kredit di pojok kanan atas */
+  .kredit-box {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
+  }
+  /* Tampilan email pengguna di pojok kiri atas */
+  .user-box {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    background: white;
+    color: #1e293b;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    z-index: 9999;
+  }
+</style>
+<script>
+  // Tampilkan kotak kredit & pengguna saat halaman dimuat
+  document.addEventListener('DOMContentLoaded', function() {
+    // Kotak Pengguna
+    const userBox = document.createElement('div');
+    userBox.className = 'user-box';
+    userBox.innerHTML = '👤 ' + emailPengguna;
+    document.body.appendChild(userBox);
+    
+    // Kotak Kredit
+    const kreditBox = document.createElement('div');
+    kreditBox.className = 'kredit-box';
+    kreditBox.innerHTML = '💰 Kredit: ' + kreditPengguna.toLocaleString();
+    kreditBox.id = 'kreditDisplay';
+    document.body.appendChild(kreditBox);
+  });
+</script>
+<!-- === AKHIR KODE LOGIN & KREDIT === -->
+
 <script>
   // Cek apakah pengguna sudah login
   const sudahLogin = sessionStorage.getItem('sudahLogin');
