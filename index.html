@@ -1,0 +1,2728 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Irisbela AI</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#0b1020;
+    color:#fff;
+}
+
+.container{
+    width:min(1100px,94%);
+    margin:auto;
+    padding:20px 0 60px;
+}
+
+header{
+    text-align:center;
+    padding:20px 0 30px;
+}
+
+header h1{
+    margin:0;
+    font-size:32px;
+}
+
+header p{
+    color:#aeb7d0;
+    margin-top:8px;
+}
+
+.card{
+    background:#141b30;
+    border:1px solid #293454;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:18px;
+}
+
+.card h2{
+    font-size:19px;
+    margin:0 0 15px;
+}
+
+label{
+    display:block;
+    margin:12px 0 6px;
+    font-size:14px;
+    color:#cbd3e8;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    border:1px solid #35415f;
+    background:#0d1426;
+    color:#fff;
+    border-radius:10px;
+    padding:12px;
+    font-size:14px;
+    outline:none;
+}
+
+textarea{
+    min-height:110px;
+    resize:vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#7d8cff;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.grid3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+button{
+    border:0;
+    border-radius:10px;
+    padding:12px 15px;
+    font-weight:bold;
+    cursor:pointer;
+    margin:5px 4px 5px 0;
+    background:#536dfe;
+    color:white;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+.btn-green{
+    background:#16a34a;
+}
+
+.btn-red{
+    background:#dc2626;
+}
+
+.btn-gray{
+    background:#374151;
+}
+
+.btn-orange{
+    background:#ea580c;
+}
+
+.preview{
+    width:100%;
+    max-height:350px;
+    object-fit:contain;
+    border-radius:12px;
+    margin-top:12px;
+    background:#080c18;
+    display:none;
+}
+
+.status{
+    padding:12px;
+    border-radius:10px;
+    background:#0c1325;
+    border:1px solid #303b58;
+    color:#cbd5e1;
+    margin-top:12px;
+    white-space:pre-wrap;
+}
+
+.memory{
+    padding:10px;
+    background:#0c1325;
+    border-radius:10px;
+    margin-top:10px;
+    color:#9ca3af;
+    font-size:13px;
+}
+
+.lock{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:10px;
+}
+
+.lock input{
+    width:auto;
+}
+
+.timeline-list{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    margin-top:15px;
+}
+
+.scene{
+    background:#0d1426;
+    border:1px solid #33415f;
+    border-radius:14px;
+    padding:15px;
+}
+
+.scene.dragging{
+    opacity:.45;
+}
+
+.scene-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:12px;
+}
+
+.scene-title{
+    font-weight:bold;
+    font-size:17px;
+}
+
+.scene-actions{
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.scene-actions button{
+    padding:7px 10px;
+    font-size:12px;
+}
+
+.prompt-output{
+    min-height:180px;
+    white-space:pre-wrap;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.small{
+    font-size:12px;
+    color:#8f9ab4;
+}
+
+.divider{
+    height:1px;
+    background:#293454;
+    margin:18px 0;
+}
+
+.badge{
+    display:inline-block;
+    background:#28345a;
+    color:#b9c4ff;
+    padding:5px 8px;
+    border-radius:7px;
+    font-size:11px;
+    margin-left:5px;
+}
+
+@media(max-width:700px){
+
+    .grid,
+    .grid3{
+        grid-template-columns:1fr;
+    }
+
+    header h1{
+        font-size:26px;
+    }
+
+    .scene-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>✨ Irisbela AI</h1>
+    <p>AI Prompt Generator • Character • Product • Timeline Director</p>
+</header>
+
+
+<!-- PRESET -->
+
+<div class="card">
+
+<h2>🎛️ PRESET ENGINE</h2>
+
+<label>Preset</label>
+
+<select id="preset" onchange="applyPreset()">
+
+<option value="Custom">Custom</option>
+<option value="TikTok Affiliate">TikTok Affiliate</option>
+<option value="Daily Vlog">Daily Vlog</option>
+<option value="Fashion Showcase">Fashion Showcase</option>
+<option value="Product Showcase">Product Showcase</option>
+<option value="Cinematic">Cinematic</option>
+
+</select>
+
+</div>
+
+
+<!-- CHARACTER -->
+
+<div class="card">
+
+<h2>👤 CHARACTER REFERENCE</h2>
+
+<input
+    type="file"
+    id="characterFile"
+    accept="image/*"
+    onchange="previewImage(this,'characterPreview')"
+>
+
+<img
+    id="characterPreview"
+    class="preview"
+>
+
+<div>
+
+<button
+    onclick="analyzeCharacter()"
+>
+🔍 ANALISIS FOTO KARAKTER
+</button>
+
+<button
+    class="btn-green"
+    onclick="saveCharacter()"
+>
+💾 SIMPAN CHARACTER
+</button>
+
+<button
+    class="btn-gray"
+    onclick="loadCharacter()"
+>
+📂 LOAD CHARACTER
+</button>
+
+<button
+    class="btn-red"
+    onclick="deleteCharacter()"
+>
+🗑️ HAPUS MEMORY
+</button>
+
+</div>
+
+<div
+    id="characterMemory"
+    class="memory"
+>
+Memory karakter belum tersedia.
+</div>
+
+<label>Character Profile</label>
+
+<textarea
+    id="characterProfile"
+    placeholder="Hasil analisis karakter..."
+></textarea>
+
+<label class="lock">
+
+<input
+    type="checkbox"
+    id="characterLock"
+    checked
+>
+
+🔒 Identity Lock
+</label>
+
+</div>
+
+
+<!-- PRODUCT -->
+
+<div class="card">
+
+<h2>📦 PRODUCT REFERENCE</h2>
+
+<input
+    type="file"
+    id="productFile"
+    accept="image/*"
+    onchange="previewImage(this,'productPreview')"
+>
+
+<img
+    id="productPreview"
+    class="preview"
+>
+
+<div>
+
+<button
+    onclick="analyzeProduct()"
+>
+🔍 ANALISIS FOTO PRODUK
+</button>
+
+<button
+    class="btn-green"
+    onclick="saveProduct()"
+>
+💾 SIMPAN PRODUCT
+</button>
+
+<button
+    class="btn-gray"
+    onclick="loadProduct()"
+>
+📂 LOAD PRODUCT
+</button>
+
+<button
+    class="btn-red"
+    onclick="deleteProduct()"
+>
+🗑️ HAPUS MEMORY
+</button>
+
+</div>
+
+<div
+    id="productMemory"
+    class="memory"
+>
+Memory produk belum tersedia.
+</div>
+
+<label>Product Profile</label>
+
+<textarea
+    id="productProfile"
+    placeholder="Hasil analisis produk..."
+></textarea>
+
+<label class="lock">
+
+<input
+    type="checkbox"
+    id="productLock"
+    checked
+>
+
+🔒 Product Lock
+
+</label>
+
+</div>
+
+
+<!-- STORY -->
+
+<div class="card">
+
+<h2>🎬 STORY / CONCEPT</h2>
+
+<label>Ide Cerita</label>
+
+<textarea
+    id="concept"
+    placeholder="Contoh: seorang wanita sedang membuat video affiliate menggunakan produk ini di dalam kamar pada malam hari..."
+></textarea>
+
+<button
+    id="autoBuildButton"
+    class="btn-orange"
+    onclick="autoBuildScene()"
+>
+✨ AUTO BUILD SCENE
+</button>
+
+<div
+    id="status"
+    class="status"
+>
+Status: siap.
+</div>
+
+</div>
+
+
+<!-- GLOBAL -->
+
+<div class="card">
+
+<h2>🎨 GLOBAL VISUAL SETTINGS</h2>
+
+<div class="grid3">
+
+<div>
+
+<label>Pencahayaan</label>
+
+<select id="globalLighting">
+
+<option>Pencahayaan natural</option>
+<option>Pencahayaan super terang</option>
+<option>Pencahayaan lembut</option>
+<option>Pencahayaan malam</option>
+<option>Cinematic lighting</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Visual Style</label>
+
+<select id="globalStyle">
+
+<option>Photorealistic</option>
+<option>Ultra realistic</option>
+<option>Cinematic</option>
+<option>Luxury commercial</option>
+<option>Documentary</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Quality</label>
+
+<select id="globalQuality">
+
+<option>4K Ultra HD</option>
+<option>8K Ultra HD</option>
+<option>Full HD</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div>
+
+<label>Aspect Ratio</label>
+
+<select id="globalRatio">
+
+<option>9:16</option>
+<option>16:9</option>
+<option>1:1</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Total Durasi</label>
+
+<select id="totalDuration">
+
+<option value="8">8 detik</option>
+<option value="16">16 detik</option>
+<option value="24">24 detik</option>
+<option value="30">30 detik</option>
+<option value="60">60 detik</option>
+
+</select>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TIMELINE -->
+
+<div class="card">
+
+<h2>🎞️ TIMELINE DIRECTOR</h2>
+
+<div class="grid">
+
+<div>
+
+<label>Jumlah Scene</label>
+
+<select id="sceneCount">
+
+<option value="2">2 Scene</option>
+<option value="3">3 Scene</option>
+<option value="4">4 Scene</option>
+<option value="5">5 Scene</option>
+<option value="6">6 Scene</option>
+<option value="8">8 Scene</option>
+<option value="10">10 Scene</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Durasi per Scene</label>
+
+<input
+    id="sceneDuration"
+    value="8 detik"
+>
+
+</div>
+
+</div>
+
+<button
+    id="buildTimelineButton"
+    onclick="buildTimeline()"
+>
+🎬 AUTO BUILD TIMELINE
+</button>
+
+<div
+    id="timeline"
+    class="timeline-list"
+>
+</div>
+
+</div>
+
+
+<!-- NEGATIVE -->
+
+<div class="card">
+
+<h2>🚫 NEGATIVE PROMPT</h2>
+
+<textarea
+    id="negativePrompt"
+>low quality, blurry, distorted face, different person, changed face, changed hair, changed outfit, deformed hands, extra fingers, missing fingers, distorted body, bad anatomy, unrealistic movement, floating objects, duplicated objects, wrong camera perspective, inconsistent character, inconsistent product, watermark, text, logo</textarea>
+
+</div>
+
+
+<!-- GENERATE -->
+
+<div class="card">
+
+<h2>🚀 PROMPT GENERATOR</h2>
+
+<p class="small">
+Semua scene akan diproses dalam satu request AI agar lebih stabil dan tidak membuat browser Android bekerja seperti oven.
+</p>
+
+<button
+    id="generateAllButton"
+    class="btn-green"
+    onclick="generateAllPrompts(this)"
+>
+🚀 GENERATE ALL PROMPTS
+</button>
+
+<button
+    class="btn-gray"
+    onclick="buildAllOutput()"
+>
+📋 BUILD OUTPUT
+</button>
+
+<button
+    class="btn-gray"
+    onclick="copyAllPrompts()"
+>
+📋 COPY ALL
+</button>
+
+</div>
+
+
+<!-- OUTPUT -->
+
+<div class="card">
+
+<h2>📝 FINAL PROMPT OUTPUT</h2>
+
+<textarea
+    id="finalOutput"
+    class="prompt-output"
+    placeholder="Prompt final akan muncul di sini..."
+></textarea>
+
+<button
+    class="btn-gray"
+    onclick="copyText('finalOutput')"
+>
+📋 COPY OUTPUT
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+let timelineData = [];
+
+const STORAGE_TIMELINE =
+    "irisbela_timeline_v66";
+
+const STORAGE_CHARACTER =
+    "irisbela_character_memory";
+
+const STORAGE_PRODUCT =
+    "irisbela_product_memory";
+
+
+/* STATUS */
+
+function setStatus(text){
+
+    const el =
+        document.getElementById("status");
+
+    if(el){
+        el.textContent =
+            text;
+    }
+
+}
+
+
+/* PREVIEW */
+
+function previewImage(input,id){
+
+    const file =
+        input.files?.[0];
+
+    if(!file){
+        return;
+    }
+
+    const img =
+        document.getElementById(id);
+
+    img.src =
+        URL.createObjectURL(file);
+
+    img.style.display =
+        "block";
+
+}
+
+
+/* FILE TO BASE64 */
+
+function fileToBase64(file){
+
+    return new Promise(
+        (resolve,reject)=>{
+
+            const reader =
+                new FileReader();
+
+            reader.onload =
+                () => {
+
+                    const result =
+                        reader.result;
+
+                    resolve(
+                        result
+                        .split(",")[1]
+                    );
+
+                };
+
+            reader.onerror =
+                reject;
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+}
+
+
+/* ANALYZE CHARACTER */
+
+async function analyzeCharacter(){
+
+    const file =
+        document
+        .getElementById("characterFile")
+        .files?.[0];
+
+    if(!file){
+
+        alert(
+            "Pilih foto karakter terlebih dahulu."
+        );
+
+        return;
+    }
+
+    setStatus(
+        "🔍 Menganalisis karakter..."
+    );
+
+    try{
+
+        const image =
+            await fileToBase64(file);
+
+        const response =
+            await fetch(
+                "/api/analyze",
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        image:image,
+
+                        mimeType:
+                            file.type ||
+                            "image/jpeg",
+
+                        type:
+                            "character"
+
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.detail ||
+                data.error ||
+                "Analisis karakter gagal."
+            );
+
+        }
+
+        document
+        .getElementById(
+            "characterProfile"
+        )
+        .value =
+            data.result || "";
+
+        setStatus(
+            "✅ Analisis karakter selesai."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        setStatus(
+            "❌ Gagal: " +
+            error.message
+        );
+
+        alert(
+            "Analisis karakter gagal:\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* ANALYZE PRODUCT */
+
+async function analyzeProduct(){
+
+    const file =
+        document
+        .getElementById("productFile")
+        .files?.[0];
+
+    if(!file){
+
+        alert(
+            "Pilih foto produk terlebih dahulu."
+        );
+
+        return;
+    }
+
+    setStatus(
+        "🔍 Menganalisis produk..."
+    );
+
+    try{
+
+        const image =
+            await fileToBase64(file);
+
+        const response =
+            await fetch(
+                "/api/analyze",
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        image:image,
+
+                        mimeType:
+                            file.type ||
+                            "image/jpeg",
+
+                        type:
+                            "product"
+
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.detail ||
+                data.error ||
+                "Analisis produk gagal."
+            );
+
+        }
+
+        document
+        .getElementById(
+            "productProfile"
+        )
+        .value =
+            data.result || "";
+
+        setStatus(
+            "✅ Analisis produk selesai."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        setStatus(
+            "❌ Gagal: " +
+            error.message
+        );
+
+        alert(
+            "Analisis produk gagal:\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* CHARACTER MEMORY */
+
+function saveCharacter(){
+
+    const profile =
+        document
+        .getElementById(
+            "characterProfile"
+        )
+        .value
+        .trim();
+
+    if(!profile){
+
+        alert(
+            "Character Profile masih kosong."
+        );
+
+        return;
+    }
+
+    localStorage.setItem(
+        STORAGE_CHARACTER,
+        profile
+    );
+
+    updateMemoryStatus();
+
+    setStatus(
+        "💾 Character berhasil disimpan."
+    );
+
+}
+
+
+function loadCharacter(){
+
+    const profile =
+        localStorage.getItem(
+            STORAGE_CHARACTER
+        );
+
+    if(!profile){
+
+        alert(
+            "Memory karakter belum tersedia."
+        );
+
+        return;
+    }
+
+    document
+    .getElementById(
+        "characterProfile"
+    )
+    .value =
+        profile;
+
+    document
+    .getElementById(
+        "characterLock"
+    )
+    .checked =
+        true;
+
+    setStatus(
+        "📂 Character memory berhasil dimuat."
+    );
+
+}
+
+
+function deleteCharacter(){
+
+    localStorage.removeItem(
+        STORAGE_CHARACTER
+    );
+
+    updateMemoryStatus();
+
+    setStatus(
+        "🗑️ Character memory dihapus."
+    );
+
+}
+
+
+/* PRODUCT MEMORY */
+
+function saveProduct(){
+
+    const profile =
+        document
+        .getElementById(
+            "productProfile"
+        )
+        .value
+        .trim();
+
+    if(!profile){
+
+        alert(
+            "Product Profile masih kosong."
+        );
+
+        return;
+    }
+
+    localStorage.setItem(
+        STORAGE_PRODUCT,
+        profile
+    );
+
+    updateMemoryStatus();
+
+    setStatus(
+        "💾 Product berhasil disimpan."
+    );
+
+}
+
+
+function loadProduct(){
+
+    const profile =
+        localStorage.getItem(
+            STORAGE_PRODUCT
+        );
+
+    if(!profile){
+
+        alert(
+            "Memory produk belum tersedia."
+        );
+
+        return;
+    }
+
+    document
+    .getElementById(
+        "productProfile"
+    )
+    .value =
+        profile;
+
+    document
+    .getElementById(
+        "productLock"
+    )
+    .checked =
+        true;
+
+    setStatus(
+        "📂 Product memory berhasil dimuat."
+    );
+
+}
+
+
+function deleteProduct(){
+
+    localStorage.removeItem(
+        STORAGE_PRODUCT
+    );
+
+    updateMemoryStatus();
+
+    setStatus(
+        "🗑️ Product memory dihapus."
+    );
+
+}
+
+
+function updateMemoryStatus(){
+
+    const char =
+        localStorage.getItem(
+            STORAGE_CHARACTER
+        );
+
+    const product =
+        localStorage.getItem(
+            STORAGE_PRODUCT
+        );
+
+    document
+    .getElementById(
+        "characterMemory"
+    )
+    .textContent =
+        char
+        ? "✅ Character memory tersedia."
+        : "Memory karakter belum tersedia.";
+
+    document
+    .getElementById(
+        "productMemory"
+    )
+    .textContent =
+        product
+        ? "✅ Product memory tersedia."
+        : "Memory produk belum tersedia.";
+
+}
+
+
+/* PRESET */
+
+function applyPreset(){
+
+    const preset =
+        document
+        .getElementById(
+            "preset"
+        )
+        .value;
+
+    const lighting =
+        document.getElementById(
+            "globalLighting"
+        );
+
+    const style =
+        document.getElementById(
+            "globalStyle"
+        );
+
+    const quality =
+        document.getElementById(
+            "globalQuality"
+        );
+
+    const ratio =
+        document.getElementById(
+            "globalRatio"
+        );
+
+    const duration =
+        document.getElementById(
+            "totalDuration"
+        );
+
+    if(preset === "TikTok Affiliate"){
+
+        lighting.value =
+            "Pencahayaan super terang";
+
+        style.value =
+            "Luxury commercial";
+
+        quality.value =
+            "4K Ultra HD";
+
+        ratio.value =
+            "9:16";
+
+        duration.value =
+            "24";
+
+    }
+
+    else if(preset === "Daily Vlog"){
+
+        lighting.value =
+            "Pencahayaan natural";
+
+        style.value =
+            "Documentary";
+
+        quality.value =
+            "4K Ultra HD";
+
+        ratio.value =
+            "9:16";
+
+        duration.value =
+            "24";
+
+    }
+
+    else if(preset === "Fashion Showcase"){
+
+        lighting.value =
+            "Pencahayaan super terang";
+
+        style.value =
+            "Luxury commercial";
+
+        quality.value =
+            "4K Ultra HD";
+
+        ratio.value =
+            "9:16";
+
+        duration.value =
+            "16";
+
+    }
+
+    else if(preset === "Product Showcase"){
+
+        lighting.value =
+            "Pencahayaan super terang";
+
+        style.value =
+            "Luxury commercial";
+
+        quality.value =
+            "8K Ultra HD";
+
+        ratio.value =
+            "9:16";
+
+        duration.value =
+            "16";
+
+    }
+
+    else if(preset === "Cinematic"){
+
+        lighting.value =
+            "Cinematic lighting";
+
+        style.value =
+            "Cinematic";
+
+        quality.value =
+            "8K Ultra HD";
+
+        ratio.value =
+            "16:9";
+
+        duration.value =
+            "30";
+
+    }
+
+}
+
+
+/* GLOBAL SETTINGS */
+
+function getGlobalSettings(){
+
+    return {
+
+        lighting:
+            document
+            .getElementById(
+                "globalLighting"
+            ).value,
+
+        visualStyle:
+            document
+            .getElementById(
+                "globalStyle"
+            ).value,
+
+        quality:
+            document
+            .getElementById(
+                "globalQuality"
+            ).value,
+
+        aspectRatio:
+            document
+            .getElementById(
+                "globalRatio"
+            ).value,
+
+        totalDuration:
+            document
+            .getElementById(
+                "totalDuration"
+            ).value
+
+    };
+
+}
+
+
+/* AUTO BUILD SCENE */
+
+async function autoBuildScene(){
+
+    const idea =
+        document
+        .getElementById(
+            "concept"
+        )
+        .value
+        .trim();
+
+    if(!idea){
+
+        alert(
+            "Isi ide cerita terlebih dahulu."
+        );
+
+        return;
+    }
+
+    const button =
+        document.getElementById(
+            "autoBuildButton"
+        );
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "⏳ BUILDING...";
+
+    setStatus(
+        "🧠 AI sedang membangun scene..."
+    );
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/scene",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        idea:idea
+                    })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.detail ||
+                data.error ||
+                "Auto Build Scene gagal."
+            );
+
+        }
+
+        const scene =
+            data.result;
+
+        timelineData = [
+            normalizeScene(
+                scene,
+                1
+            )
+        ];
+
+        saveTimeline();
+
+        renderTimeline();
+
+        setStatus(
+            "✅ Scene berhasil dibuat."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        setStatus(
+            "❌ Gagal: " +
+            error.message
+        );
+
+        alert(
+            "Auto Build Scene gagal:\n\n" +
+            error.message
+        );
+
+    }finally{
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "✨ AUTO BUILD SCENE";
+
+    }
+
+}
+
+
+/* BUILD TIMELINE */
+
+async function buildTimeline(){
+
+    const idea =
+        document
+        .getElementById(
+            "concept"
+        )
+        .value
+        .trim();
+
+    if(!idea){
+
+        alert(
+            "Isi ide cerita terlebih dahulu."
+        );
+
+        return;
+    }
+
+    const button =
+        document.getElementById(
+            "buildTimelineButton"
+        );
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "⏳ BUILDING TIMELINE...";
+
+    setStatus(
+        "🎬 AI sedang membuat timeline..."
+    );
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/timeline",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        action:
+                            "timeline",
+
+                        idea:
+                            idea,
+
+                        characterProfile:
+                            document
+                            .getElementById(
+                                "characterProfile"
+                            )
+                            .value
+                            .trim(),
+
+                        productProfile:
+                            document
+                            .getElementById(
+                                "productProfile"
+                            )
+                            .value
+                            .trim(),
+
+                        globalSettings:
+                            getGlobalSettings()
+
+                    })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.detail ||
+                data.error ||
+                "Timeline gagal dibuat."
+            );
+
+        }
+
+        if(
+            !data.result ||
+            !Array.isArray(
+                data.result.scenes
+            )
+        ){
+
+            throw new Error(
+                "Format timeline dari AI tidak valid."
+            );
+
+        }
+
+        timelineData =
+            data.result.scenes.map(
+                (scene,index) =>
+                    normalizeScene(
+                        scene,
+                        index + 1
+                    )
+            );
+
+        saveTimeline();
+
+        renderTimeline();
+
+        setStatus(
+            "✅ Timeline berhasil dibuat: " +
+            timelineData.length +
+            " scene."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        setStatus(
+            "❌ Gagal: " +
+            error.message
+        );
+
+        alert(
+            "Build Timeline gagal:\n\n" +
+            error.message
+        );
+
+    }finally{
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "🎬 AUTO BUILD TIMELINE";
+
+    }
+
+}
+
+
+/* NORMALIZE */
+
+function normalizeScene(
+    scene,
+    number
+){
+
+    return {
+
+        title:
+            scene.title ||
+            "Scene " + number,
+
+        duration:
+            scene.duration ||
+            document
+            .getElementById(
+                "sceneDuration"
+            )
+            .value,
+
+        location:
+            scene.location || "",
+
+        time:
+            scene.time || "",
+
+        activity:
+            scene.activity ||
+            scene.mainActivity ||
+            "",
+
+        characterMovement:
+            scene.characterMovement ||
+            "",
+
+        handMovement:
+            scene.handMovement ||
+            "",
+
+        expression:
+            scene.expression ||
+            "",
+
+        cameraAngle:
+            scene.cameraAngle ||
+            "",
+
+        cameraMovement:
+            scene.cameraMovement ||
+            "",
+
+        cameraPosition:
+            scene.cameraPosition ||
+            "",
+
+        cameraFocus:
+            scene.cameraFocus ||
+            "",
+
+        dialogue:
+            scene.dialogue ||
+            "Tidak ada dialog.",
+
+        voice:
+            scene.voice ||
+            "Tidak ada suara karakter.",
+
+        transition:
+            scene.transition ||
+            "",
+
+        prompt:
+            scene.prompt ||
+            ""
+
+    };
+
+}
+
+
+/* RENDER TIMELINE */
+
+function renderTimeline(){
+
+    const container =
+        document.getElementById(
+            "timeline"
+        );
+
+    container.innerHTML =
+        "";
+
+    timelineData.forEach(
+        (scene,index)=>{
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+            wrapper.className =
+                "scene";
+
+            wrapper.draggable =
+                true;
+
+            wrapper.dataset.index =
+                index;
+
+            wrapper.addEventListener(
+                "dragstart",
+                dragStart
+            );
+
+            wrapper.addEventListener(
+                "dragover",
+                dragOver
+            );
+
+            wrapper.addEventListener(
+                "drop",
+                dragDrop
+            );
+
+            wrapper.addEventListener(
+                "dragend",
+                dragEnd
+            );
+
+            wrapper.innerHTML = `
+
+<div class="scene-header">
+
+<div class="scene-title">
+Scene ${index + 1}
+<span class="badge">
+${escapeHtml(scene.duration)}
+</span>
+</div>
+
+<div class="scene-actions">
+
+<button
+onclick="moveScene(${index},-1)"
+class="btn-gray"
+>
+↑
+</button>
+
+<button
+onclick="moveScene(${index},1)"
+class="btn-gray"
+>
+↓
+</button>
+
+<button
+onclick="duplicateScene(${index})"
+class="btn-gray"
+>
+Duplicate
+</button>
+
+<button
+onclick="generateSingleScene(${index})"
+class="btn-orange"
+>
+Generate
+</button>
+
+<button
+onclick="deleteScene(${index})"
+class="btn-red"
+>
+Delete
+</button>
+
+</div>
+
+</div>
+
+<div class="grid">
+
+<div>
+
+<label>Judul Scene</label>
+
+<input
+value="${escapeAttr(scene.title)}"
+oninput="updateScene(${index},'title',this.value)"
+>
+
+</div>
+
+<div>
+
+<label>Durasi</label>
+
+<input
+value="${escapeAttr(scene.duration)}"
+oninput="updateScene(${index},'duration',this.value)"
+>
+
+</div>
+
+</div>
+
+<label>Lokasi</label>
+
+<input
+value="${escapeAttr(scene.location)}"
+oninput="updateScene(${index},'location',this.value)"
+>
+
+<label>Waktu</label>
+
+<input
+value="${escapeAttr(scene.time)}"
+oninput="updateScene(${index},'time',this.value)"
+>
+
+<label>Aktivitas</label>
+
+<textarea
+oninput="updateScene(${index},'activity',this.value)"
+>${escapeHtml(scene.activity)}</textarea>
+
+<label>Gerakan Karakter</label>
+
+<textarea
+oninput="updateScene(${index},'characterMovement',this.value)"
+>${escapeHtml(scene.characterMovement)}</textarea>
+
+<label>Gerakan Tangan</label>
+
+<textarea
+oninput="updateScene(${index},'handMovement',this.value)"
+>${escapeHtml(scene.handMovement)}</textarea>
+
+<label>Ekspresi</label>
+
+<input
+value="${escapeAttr(scene.expression)}"
+oninput="updateScene(${index},'expression',this.value)"
+>
+
+<label>Camera Angle</label>
+
+<input
+value="${escapeAttr(scene.cameraAngle)}"
+oninput="updateScene(${index},'cameraAngle',this.value)"
+>
+
+<label>Camera Movement</label>
+
+<input
+value="${escapeAttr(scene.cameraMovement)}"
+oninput="updateScene(${index},'cameraMovement',this.value)"
+>
+
+<label>Camera Position</label>
+
+<input
+value="${escapeAttr(scene.cameraPosition)}"
+oninput="updateScene(${index},'cameraPosition',this.value)"
+>
+
+<label>Camera Focus</label>
+
+<input
+value="${escapeAttr(scene.cameraFocus)}"
+oninput="updateScene(${index},'cameraFocus',this.value)"
+>
+
+<label>Dialog</label>
+
+<textarea
+oninput="updateScene(${index},'dialogue',this.value)"
+>${escapeHtml(scene.dialogue)}</textarea>
+
+<label>Voice</label>
+
+<input
+value="${escapeAttr(scene.voice)}"
+oninput="updateScene(${index},'voice',this.value)"
+>
+
+<label>Transition</label>
+
+<input
+value="${escapeAttr(scene.transition)}"
+oninput="updateScene(${index},'transition',this.value)"
+>
+
+<label>Generated Prompt</label>
+
+<textarea
+class="prompt-output"
+oninput="updateScene(${index},'prompt',this.value)"
+>${escapeHtml(scene.prompt)}</textarea>
+
+<button
+class="btn-gray"
+onclick="copyScene(${index})"
+>
+📋 COPY SCENE
+</button>
+
+`;
+
+            container.appendChild(
+                wrapper
+            );
+
+        }
+    );
+
+}
+
+
+/* UPDATE */
+
+function updateScene(
+    index,
+    field,
+    value
+){
+
+    if(
+        timelineData[index]
+    ){
+
+        timelineData[index][field] =
+            value;
+
+        saveTimeline();
+
+    }
+
+}
+
+
+/* MOVE */
+
+function moveScene(
+    index,
+    direction
+){
+
+    const target =
+        index + direction;
+
+    if(
+        target < 0 ||
+        target >=
+        timelineData.length
+    ){
+
+        return;
+
+    }
+
+    const temp =
+        timelineData[index];
+
+    timelineData[index] =
+        timelineData[target];
+
+    timelineData[target] =
+        temp;
+
+    saveTimeline();
+
+    renderTimeline();
+
+}
+
+
+/* DUPLICATE */
+
+function duplicateScene(index){
+
+    const copy =
+        JSON.parse(
+            JSON.stringify(
+                timelineData[index]
+            )
+        );
+
+    copy.title =
+        copy.title +
+        " Copy";
+
+    copy.prompt =
+        "";
+
+    timelineData.splice(
+        index + 1,
+        0,
+        copy
+    );
+
+    saveTimeline();
+
+    renderTimeline();
+
+}
+
+
+/* DELETE */
+
+function deleteScene(index){
+
+    if(
+        !confirm(
+            "Hapus Scene " +
+            (index + 1) +
+            "?"
+        )
+    ){
+
+        return;
+
+    }
+
+    timelineData.splice(
+        index,
+        1
+    );
+
+    saveTimeline();
+
+    renderTimeline();
+
+}
+
+
+/* DRAG */
+
+let draggedIndex =
+    null;
+
+function dragStart(event){
+
+    draggedIndex =
+        Number(
+            event.currentTarget
+            .dataset
+            .index
+        );
+
+    event.currentTarget
+        .classList
+        .add("dragging");
+
+}
+
+
+function dragOver(event){
+
+    event.preventDefault();
+
+}
+
+
+function dragDrop(event){
+
+    event.preventDefault();
+
+    const targetIndex =
+        Number(
+            event.currentTarget
+            .dataset
+            .index
+        );
+
+    if(
+        draggedIndex === null ||
+        draggedIndex === targetIndex
+    ){
+
+        return;
+
+    }
+
+    const item =
+        timelineData.splice(
+            draggedIndex,
+            1
+        )[0];
+
+    timelineData.splice(
+        targetIndex,
+        0,
+        item
+    );
+
+    saveTimeline();
+
+    renderTimeline();
+
+}
+
+
+function dragEnd(event){
+
+    event.currentTarget
+        .classList
+        .remove("dragging");
+
+    draggedIndex =
+        null;
+
+}
+
+
+/* GENERATE SINGLE */
+
+async function generateSingleScene(
+    index
+){
+
+    if(
+        !timelineData[index]
+    ){
+
+        return;
+
+    }
+
+    setStatus(
+        "🎯 Membuat prompt Scene " +
+        (index + 1) +
+        "..."
+    );
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/timeline",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        action:
+                            "scene",
+
+                        scene:
+                            timelineData[index],
+
+                        previousScene:
+                            timelineData[
+                                index - 1
+                            ] || null,
+
+                        characterProfile:
+                            document
+                            .getElementById(
+                                "characterProfile"
+                            )
+                            .value
+                            .trim(),
+
+                        productProfile:
+                            document
+                            .getElementById(
+                                "productProfile"
+                            )
+                            .value
+                            .trim(),
+
+                        globalSettings:
+                            getGlobalSettings()
+
+                    })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.detail ||
+                data.error ||
+                "Generate scene gagal."
+            );
+
+        }
+
+        timelineData[index].prompt =
+            data.result || "";
+
+        saveTimeline();
+
+        renderTimeline();
+
+        setStatus(
+            "✅ Prompt Scene " +
+            (index + 1) +
+            " selesai."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        setStatus(
+            "❌ Gagal Scene " +
+            (index + 1) +
+            ": " +
+            error.message
+        );
+
+        alert(
+            "Generate Scene gagal:\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* GENERATE ALL */
+
+async function generateAllPrompts(
+    button
+){
+
+    if(
+        !Array.isArray(
+            timelineData
+        ) ||
+        timelineData.length === 0
+    ){
+
+        alert(
+            "Belum ada scene. Buat timeline terlebih dahulu."
+        );
+
+        return;
+
+    }
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "⏳ GENERATING...";
+
+    setStatus(
+        "🚀 Mengirim seluruh timeline ke AI..."
+    );
+
+    try{
+
+        const controller =
+            new AbortController();
+
+        const timeout =
+            setTimeout(
+                ()=>{
+                    controller.abort();
+                },
+                90000
+            );
+
+        const response =
+            await fetch(
+                "/api/timeline",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        action:
+                            "generate_all",
+
+                        idea:
+                            document
+                            .getElementById(
+                                "concept"
+                            )
+                            .value
+                            .trim(),
+
+                        scenes:
+                            timelineData,
+
+                        characterProfile:
+                            document
+                            .getElementById(
+                                "characterProfile"
+                            )
+                            .value
+                            .trim(),
+
+                        productProfile:
+                            document
+                            .getElementById(
+                                "productProfile"
+                            )
+                            .value
+                            .trim(),
+
+                        globalSettings:
+                            getGlobalSettings()
+
+                    }),
+
+                    signal:
+                        controller.signal
+
+                }
+            );
+
+        clearTimeout(
+            timeout
+        );
+
+        const data =
+            await response.json();
+
+        console.log(
+            "Generate response:",
+            data
+        );
+
+        if(!response.ok){
+
+            throw new Error(
+                data.detail ||
+                data.error ||
+                "Server gagal memproses prompt."
+            );
+
+        }
+
+        if(
+            !data.result ||
+            !Array.isArray(
+                data.result.prompts
+            )
+        ){
+
+            throw new Error(
+                "Format response AI tidak valid."
+            );
+
+        }
+
+        data.result.prompts.forEach(
+            item => {
+
+                const sceneNumber =
+                    Number(
+                        item.sceneNumber
+                    );
+
+                const index =
+                    sceneNumber - 1;
+
+                if(
+                    index >= 0 &&
+                    index <
+                    timelineData.length
+                ){
+
+                    timelineData[
+                        index
+                    ].prompt =
+                        item.prompt ||
+                        "";
+
+                }
+
+            }
+        );
+
+        saveTimeline();
+
+        renderTimeline();
+
+        buildAllOutput();
+
+        setStatus(
+            "✅ Semua " +
+            timelineData.length +
+            " prompt berhasil dibuat."
+        );
+
+    }catch(error){
+
+        console.error(
+            "Generate error:",
+            error
+        );
+
+        let message =
+            error.message;
+
+        if(
+            error.name ===
+            "AbortError"
+        ){
+
+            message =
+                "Request terlalu lama. Proses dihentikan setelah 90 detik.";
+
+        }
+
+        setStatus(
+            "❌ Generate gagal: " +
+            message
+        );
+
+        alert(
+            "Generate Prompt gagal:\n\n" +
+            message
+        );
+
+    }finally{
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "🚀 GENERATE ALL PROMPTS";
+
+    }
+
+}
+
+
+/* BUILD OUTPUT */
+
+function buildAllOutput(){
+
+    const output =
+        timelineData
+        .map(
+            (scene,index)=>{
+
+                return (
+                    "==============================\n" +
+                    "SCENE " +
+                    (index + 1) +
+                    "\n" +
+                    "==============================\n\n" +
+                    (
+                        scene.prompt ||
+                        "[Prompt belum dibuat]"
+                    )
+                );
+
+            }
+        )
+        .join("\n\n");
+
+    document
+    .getElementById(
+        "finalOutput"
+    )
+    .value =
+        output;
+
+}
+
+
+/* COPY */
+
+async function copyText(id){
+
+    const element =
+        document
+        .getElementById(id);
+
+    try{
+
+        await navigator.clipboard.writeText(
+            element.value ||
+            element.textContent ||
+            ""
+        );
+
+        setStatus(
+            "📋 Berhasil disalin."
+        );
+
+    }catch(error){
+
+        element.select();
+
+        document.execCommand(
+            "copy"
+        );
+
+        setStatus(
+            "📋 Berhasil disalin."
+        );
+
+    }
+
+}
+
+
+function copyScene(index){
+
+    const prompt =
+        timelineData[index]
+        ?.prompt || "";
+
+    if(!prompt){
+
+        alert(
+            "Prompt scene belum dibuat."
+        );
+
+        return;
+
+    }
+
+    navigator.clipboard
+        .writeText(prompt)
+        .then(
+            ()=>{
+                setStatus(
+                    "📋 Prompt Scene " +
+                    (index + 1) +
+                    " disalin."
+                );
+            }
+        );
+
+}
+
+
+function copyAllPrompts(){
+
+    buildAllOutput();
+
+    copyText(
+        "finalOutput"
+    );
+
+}
+
+
+/* LOCAL STORAGE */
+
+function saveTimeline(){
+
+    try{
+
+        localStorage.setItem(
+            STORAGE_TIMELINE,
+            JSON.stringify(
+                timelineData
+            )
+        );
+
+    }catch(error){
+
+        console.error(
+            "Autosave gagal:",
+            error
+        );
+
+    }
+
+}
+
+
+function loadTimeline(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(
+                STORAGE_TIMELINE
+            );
+
+        if(!saved){
+
+            return;
+
+        }
+
+        const parsed =
+            JSON.parse(saved);
+
+        if(
+            Array.isArray(parsed)
+        ){
+
+            timelineData =
+                parsed.map(
+                    (scene,index)=>
+                        normalizeScene(
+                            scene,
+                            index + 1
+                        )
+                );
+
+            renderTimeline();
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Load timeline gagal:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ESCAPE HTML */
+
+function escapeHtml(value){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+function escapeAttr(value){
+
+    return escapeHtml(
+        value
+    );
+
+}
+
+
+/* INIT */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    ()=>{
+
+        updateMemoryStatus();
+
+        loadTimeline();
+
+        applyPreset();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
