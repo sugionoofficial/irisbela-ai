@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Irisbela AI</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    background: #0f1117;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: #181b23;
+    padding: 18px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+textarea,
+select,
+input[type="text"],
+input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    background: #101218;
+    color: white;
+    margin-bottom: 15px;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: #6c5ce7;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#result {
+    white-space: pre-wrap;
+    line-height: 1.6;
+    color: #ddd;
+    min-height: 150px;
+}
+
+.copy {
+    margin-top: 10px;
+    background: #333842;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+<h1>✨ Irisbela AI</h1>
+
+<div class="subtitle">
+Generator Prompt Gambar & Video AI
+</div>
+
+
+<div class="card">
+
+<label>Deskripsi Adegan</label>
+
+<textarea
+id="description"
+placeholder="Contoh: seorang wanita sedang berdiri memperlihatkan produk kepada kamera...">
+</textarea>
+
+</div>
+
+
+<div class="card">
+
+<label>Foto Karakter</label>
+
+<input
+type="file"
+id="characterImage"
+accept="image/*">
+
+
+<label>Foto Produk</label>
+
+<input
+type="file"
+id="productImage"
+accept="image/*">
+
+</div>
+
+
+<div class="card">
+
+<label>Jenis Output</label>
+
+<select id="output">
+
+<option value="Prompt Gambar">
+Prompt Gambar
+</option>
+
+<option value="Prompt Video">
+Prompt Video
+</option>
+
+</select>
+
+
+<label>Durasi</label>
+
+<select id="duration">
+
+<option value="5 detik">5 detik</option>
+
+<option value="8 detik">8 detik</option>
+
+<option value="10 detik">10 detik</option>
+
+<option value="15 detik">15 detik</option>
+
+<option value="25 detik">25 detik</option>
+
+</select>
+
+
+<label>Angle Kamera</label>
+
+<select id="camera">
+
+<option value="Close-up">
+Close-up
+</option>
+
+<option value="Medium shot">
+Medium shot
+</option>
+
+<option value="Full body">
+Full body
+</option>
+
+<option value="POV">
+POV
+</option>
+
+<option value="Selfie">
+Selfie
+</option>
+
+<option value="Random cinematic">
+Random cinematic
+</option>
+
+</select>
+
+
+<label>Pencahayaan</label>
+
+<select id="lighting">
+
+<option value="Super terang">
+Super terang
+</option>
+
+<option value="Pagi hari">
+Pagi hari
+</option>
+
+<option value="Siang hari">
+Siang hari
+</option>
+
+<option value="Golden hour">
+Golden hour
+</option>
+
+<option value="Malam hari">
+Malam hari
+</option>
+
+<option value="Cinematic low light">
+Cinematic low light
+</option>
+
+</select>
+
+
+<label>Lokasi</label>
+
+<input
+type="text"
+id="location"
+placeholder="Contoh: kamar tidur modern">
+
+
+<label>Gaya Visual</label>
+
+<input
+type="text"
+id="style"
+placeholder="Contoh: realistis cinematic 4K">
+
+
+</div>
+
+
+<div class="card">
+
+<button onclick="generatePrompt()">
+✨ GENERATE PROMPT
+</button>
+
+</div>
+
+
+<div class="card">
+
+<label>Hasil Irisbela AI</label>
+
+<div id="result">
+Prompt akan muncul di sini...
+</div>
+
+<button
+class="copy"
+onclick="copyPrompt()">
+
+📋 COPY PROMPT
+
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+async function generatePrompt() {
+
+    const description =
+        document.getElementById("description").value;
+
+    const output =
+        document.getElementById("output").value;
+
+    const duration =
+        document.getElementById("duration").value;
+
+    const camera =
+        document.getElementById("camera").value;
+
+    const lighting =
+        document.getElementById("lighting").value;
+
+    const location =
+        document.getElementById("location").value;
+
+    const style =
+        document.getElementById("style").value;
+
+    const characterFile =
+        document.getElementById(
+            "characterImage"
+        ).files[0];
+
+    const productFile =
+        document.getElementById(
+            "productImage"
+        ).files[0];
+
+    const result =
+        document.getElementById("result");
+
+
+    if (!description.trim()) {
+
+        alert(
+            "Isi deskripsi adegan terlebih dahulu."
+        );
+
+        return;
+
+    }
+
+
+    result.textContent =
+        "⏳ Irisbela AI sedang membuat prompt...";
+
+
+    try {
+
+        const response =
+            await fetch("/api/generate", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    description,
+                    output,
+                    duration,
+                    camera,
+                    lighting,
+                    location,
+                    style
+
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Gagal menghubungi AI."
+            );
+
+        }
+
+
+        result.textContent =
+            data.result;
+
+
+    } catch (error) {
+
+        result.textContent =
+            "❌ Terjadi kesalahan:\n\n" +
+            error.message;
+
+    }
+
+}
+
+
+async function copyPrompt() {
+
+    const text =
+        document.getElementById(
+            "result"
+        ).textContent;
+
+
+    try {
+
+        await navigator.clipboard
+            .writeText(text);
+
+        alert(
+            "Prompt berhasil disalin."
+        );
+
+    } catch {
+
+        alert(
+            "Prompt gagal disalin."
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
