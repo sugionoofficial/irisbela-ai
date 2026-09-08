@@ -1,0 +1,256 @@
+<html style="margin:0;padding:0;">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body style="margin:0;padding:0;font-family:'Inter',sans-serif;background:linear-gradient(135deg,#f0f4ff 0%,#e6ecff 50%,#f5f0ff 100%);min-height:100%;">
+    <div style="box-sizing:border-box;min-height:100%;padding:40px 20px;display:flex;align-items:center;justify-content:center;">
+        <div style="width:100%;max-width:1000px;background:white;border-radius:24px;box-shadow:0 20px 60px rgba(15,23,42,0.1);overflow:hidden;display:flex;flex-wrap:wrap;">
+            
+            <!-- Sisi Kiri: Brand & Visual -->
+            <div style="flex:1 1 400px;min-height:500px;background:linear-gradient(160deg,#1e3a8a 0%,#3b82f6 50%,#6366f1 100%);padding:50px 40px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;">
+                <!-- Dekorasi lingkaran -->
+                <div style="position:absolute;top:-80px;right:-80px;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,0.08);"></div>
+                <div style="position:absolute;bottom:-60px;left:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+                
+                <div style="position:relative;z-index:1;">
+                    <div style="display:flex;align-items:center;gap:12px;margin-bottom:40px;">
+                        <div style="width:48px;height:48px;border-radius:14px;background:white;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,0.15);">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <path d="M2 17l10 5 10-5"/>
+                                <path d="M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <span style="color:white;font-size:22px;font-weight:700;letter-spacing:-0.5px;">IrisBela AI</span>
+                    </div>
+                    
+                    <h1 style="color:white;font-size:32px;font-weight:700;line-height:1.3;margin:0 0 16px 0;">
+                        Selamat Datang Kembali
+                    </h1>
+                    <p style="color:rgba(255,255,255,0.85);font-size:15px;line-height:1.7;margin:0;">
+                        Masuk ke akun Anda dan akses seluruh fitur kecerdasan buatan IrisBela yang siap membantu pekerjaan Anda menjadi lebih cepat & cerdas.
+                    </p>
+                </div>
+                
+                <div style="position:relative;z-index:1;">
+                    <div style="display:flex;gap:16px;margin-bottom:20px;">
+                        <div style="flex:1;padding:16px;background:rgba(255,255,255,0.1);border-radius:12px;backdrop-filter:blur(10px);">
+                            <div style="color:white;font-size:24px;font-weight:700;">50+</div>
+                            <div style="color:rgba(255,255,255,0.75);font-size:12px;">Model AI Tersedia</div>
+                        </div>
+                        <div style="flex:1;padding:16px;background:rgba(255,255,255,0.1);border-radius:12px;backdrop-filter:blur(10px);">
+                            <div style="color:white;font-size:24px;font-weight:700;">10rb+</div>
+                            <div style="color:rgba(255,255,255,0.75);font-size:12px;">Pengguna Aktif</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.9);font-size:13px;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        <span>Keamanan data terenkripsi end-to-end</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sisi Kanan: Form Login -->
+            <div style="flex:1 1 380px;padding:50px 40px;display:flex;flex-direction:column;justify-content:center;">
+                <div style="margin-bottom:32px;">
+                    <h2 style="color:#0f172a;font-size:28px;font-weight:700;margin:0 0 8px 0;">Masuk ke Akun</h2>
+                    <p style="color:#64748b;font-size:14px;margin:0;">Silakan masukkan detail akun Anda</p>
+                </div>
+                
+                <form id="loginForm" style="display:flex;flex-direction:column;gap:20px;">
+                    <!-- Email -->
+                    <div>
+                        <label for="email" style="display:block;color:#334155;font-size:14px;font-weight:500;margin-bottom:8px;">Alamat Email</label>
+                        <div style="position:relative;">
+                            <div style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                                </svg>
+                            </div>
+                            <input type="email" id="email" placeholder="nama@email.com" required
+                                style="width:100%;padding:14px 14px 14px 44px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:14px;color:#0f172a;background:#f8fafc;transition:all 0.2s;box-sizing:border-box;outline:none;font-family:inherit;">
+                        </div>
+                    </div>
+                    
+                    <!-- Password -->
+                    <div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                            <label for="password" style="color:#334155;font-size:14px;font-weight:500;">Kata Sandi</label>
+                            <a href="#" style="color:#2563eb;font-size:13px;font-weight:500;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#2563eb'">Lupa sandi?</a>
+                        </div>
+                        <div style="position:relative;">
+                            <div style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#94a3b8;">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                            </div>
+                            <input type="password" id="password" placeholder="Masukkan kata sandi" required
+                                style="width:100%;padding:14px 50px 14px 44px;border:1.5px solid #e2e8f0;border-radius:12px;font-size:14px;color:#0f172a;background:#f8fafc;transition:all 0.2s;box-sizing:border-box;outline:none;font-family:inherit;">
+                            <button type="button" id="togglePassword" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;padding:6px;border-radius:6px;transition:all 0.2s;"
+                                onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='transparent'">
+                                <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Ingat Saya -->
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <input type="checkbox" id="remember" style="width:16px;height:16px;border-radius:4px;cursor:pointer;accent-color:#2563eb;">
+                        <label for="remember" style="color:#64748b;font-size:13px;cursor:pointer;">Ingat saya di perangkat ini</label>
+                    </div>
+                    
+                    <!-- Tombol Login -->
+                    <button type="submit" id="loginBtn"
+                        style="width:100%;padding:14px 24px;background:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 100%);color:white;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.3s;font-family:inherit;box-shadow:0 4px 14px rgba(37,99,235,0.3);letter-spacing:0.3px;">
+                        Masuk ke Akun
+                    </button>
+                    
+                    <!-- Pesan Error -->
+                    <div id="errorMsg" style="display:none;padding:12px 16px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;color:#dc2626;font-size:13px;text-align:center;"></div>
+                    
+                    <!-- Pesan Sukses -->
+                    <div id="successMsg" style="display:none;padding:12px 16px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;color:#16a34a;font-size:13px;text-align:center;">
+                        <span style="font-weight:600;">Berhasil!</span> Mengalihkan ke IrisBela AI...
+                    </div>
+                </form>
+                
+                <!-- Garis Pemisah -->
+                <div style="display:flex;align-items:center;gap:12px;margin:28px 0;">
+                    <div style="flex:1;height:1px;background:#e2e8f0;"></div>
+                    <span style="color:#94a3b8;font-size:12px;">atau masuk dengan</span>
+                    <div style="flex:1;height:1px;background:#e2e8f0;"></div>
+                </div>
+                
+                <!-- Tombol Sosial -->
+                <div style="display:flex;gap:12px;">
+                    <button type="button" style="flex:1;padding:12px;border:1.5px solid #e2e8f0;background:white;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s;font-family:inherit;"
+                        onmouseover="this.style.background='#f8fafc';this.style.borderColor='#cbd5e1'" onmouseout="this.style.background='white';this.style.borderColor='#e2e8f0'">
+                        <svg width="18" height="18" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        <span style="color:#334155;font-size:13px;font-weight:500;">Google</span>
+                    </button>
+                </div>
+                
+                <!-- Daftar Akun -->
+                <p style="text-align:center;color:#64748b;font-size:13px;margin-top:28px;">
+                    Belum punya akun? 
+                    <a href="#" style="color:#2563eb;font-weight:600;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#1d4ed8'" onmouseout="this.style.color='#2563eb'">Daftar Sekarang</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        (function() {
+            // URL tujuan proyek setelah login
+            const PROJECT_URL = 'https://irisbela-ai.vercel.app/';
+            
+            // Toggle visibilitas password
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            let passwordVisible = false;
+            
+            togglePassword.addEventListener('click', function() {
+                passwordVisible = !passwordVisible;
+                passwordInput.type = passwordVisible ? 'text' : 'password';
+                eyeIcon.innerHTML = passwordVisible 
+                    ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+                    : '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>';
+            });
+            
+            // Efek fokus input
+            const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
+            inputs.forEach(function(input) {
+                input.addEventListener('focus', function() {
+                    this.style.borderColor = '#3b82f6';
+                    this.style.background = 'white';
+                    this.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.1)';
+                });
+                input.addEventListener('blur', function() {
+                    this.style.borderColor = '#e2e8f0';
+                    this.style.background = '#f8fafc';
+                    this.style.boxShadow = 'none';
+                });
+            });
+            
+            // Form login
+            const form = document.getElementById('loginForm');
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            const successMsg = document.getElementById('successMsg');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+                
+                errorMsg.style.display = 'none';
+                successMsg.style.display = 'none';
+                
+                // Validasi sederhana
+                if (!email || !password) {
+                    errorMsg.textContent = 'Mohon isi email dan kata sandi';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    errorMsg.textContent = 'Format email tidak valid';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    errorMsg.textContent = 'Kata sandi minimal 6 karakter';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+                
+                // Simulasi login & alihkan ke proyek
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Memproses...';
+                loginBtn.style.opacity = '0.7';
+                
+                setTimeout(function() {
+                    successMsg.style.display = 'block';
+                    loginBtn.textContent = 'Masuk ke Akun';
+                    loginBtn.disabled = false;
+                    loginBtn.style.opacity = '1';
+                    
+                    // Alihkan ke halaman proyek IrisBela AI
+                    setTimeout(function() {
+                        window.location.href = PROJECT_URL;
+                    }, 1000);
+                }, 1200);
+            });
+            
+            // Efek hover tombol login
+            const loginBtnEl = document.getElementById('loginBtn');
+            loginBtnEl.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 8px 20px rgba(37,99,235,0.35)';
+            });
+            loginBtnEl.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 14px rgba(37,99,235,0.3)';
+            });
+        })();
+    </script>
+</body>
+</html>
