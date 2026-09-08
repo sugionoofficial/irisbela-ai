@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — IrisBela AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6ecff 50%, #f5f0ff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .login-card {
+            width: 100%; max-width: 1000px; background: white;
+            border-radius: 24px; box-shadow: 0 20px 60px rgba(15,23,42,0.1);
+            overflow: hidden; display: flex; flex-wrap: wrap;
+        }
+        /* Sisi Kiri — Brand */
+        .brand-side {
+            flex: 1 1 400px; min-height: 500px;
+            background: linear-gradient(160deg, #1e3a8a 0%, #3b82f6 50%, #6366f1 100%);
+            padding: 50px 40px; display: flex;
+            flex-direction: column; justify-content: space-between;
+            position: relative; overflow: hidden; color: white;
+        }
+        .brand-side .circle-1 {
+            position: absolute; top: -80px; right: -80px;
+            width: 240px; height: 240px; border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+        }
+        .brand-side .circle-2 {
+            position: absolute; bottom: -60px; left: -60px;
+            width: 200px; height: 200px; border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+        }
+        .brand-content { position: relative; z-index: 1; }
+        .logo-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+        .logo-icon {
+            width: 48px; height: 48px; border-radius: 14px; background: white;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .logo-text { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+        .brand-side h1 { font-size: 32px; font-weight: 700; line-height: 1.3; margin-bottom: 16px; }
+        .brand-side p { color: rgba(255,255,255,0.85); font-size: 15px; line-height: 1.7; }
+        .stats-wrap { position: relative; z-index: 1; }
+        .stats-row { display: flex; gap: 16px; margin-bottom: 20px; }
+        .stat-box {
+            flex: 1; padding: 16px; background: rgba(255,255,255,0.1);
+            border-radius: 12px; backdrop-filter: blur(10px);
+        }
+        .stat-num { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+        .stat-label { font-size: 12px; color: rgba(255,255,255,0.75); }
+        .security-note { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.9); }
+        /* Sisi Kanan — Form */
+        .form-side { flex: 1 1 380px; padding: 50px 40px; display: flex; flex-direction: column; justify-content: center; }
+        .form-header h2 { font-size: 28px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+        .form-header p { font-size: 14px; color: #64748b; margin-bottom: 32px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 14px; font-weight: 500; color: #334155; margin-bottom: 8px; }
+        .input-wrap { position: relative; }
+        .input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; }
+        .form-input {
+            width: 100%; padding: 14px 14px 14px 44px;
+            border: 1.5px solid #e2e8f0; border-radius: 12px;
+            font-size: 14px; color: #0f172a; background: #f8fafc;
+            outline: none; transition: all 0.2s;
+        }
+        .form-input:focus { border-color: #3b82f6; background: white; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+        .password-toggle {
+            position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+            background: none; border: none; cursor: pointer; color: #94a3b8;
+            padding: 6px; border-radius: 6px; transition: all 0.2s;
+        }
+        .password-toggle:hover { background: #e2e8f0; }
+        .checkbox-row { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+        .checkbox-row input { width: 16px; height: 16px; accent-color: #2563eb; cursor: pointer; }
+        .checkbox-row label { font-size: 13px; color: #64748b; cursor: pointer; }
+        .btn-login {
+            width: 100%; padding: 14px 24px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white; border: none; border-radius: 12px;
+            font-size: 15px; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+            letter-spacing: 0.3px;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,99,235,0.35); }
+        .btn-login:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .msg-box { margin-top: 16px; padding: 12px 16px; border-radius: 10px; font-size: 13px; text-align: center; display: none; }
+        .msg-error { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
+        .msg-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; }
+        .register-link { text-align: center; margin-top: 28px; font-size: 13px; color: #64748b; }
+        .register-link a { color: #2563eb; font-weight: 600; text-decoration: none; }
+        .register-link a:hover { color: #1d4ed8; }
+        /* 📱 Tampilan HP */
+        @media (max-width: 768px) {
+            .login-card { flex-direction: column; }
+            .brand-side { min-height: auto; padding: 30px 25px; }
+            .brand-side h1 { font-size: 24px; }
+            .logo-wrap { margin-bottom: 20px; }
+            .form-side { padding: 30px 25px; }
+            .stats-row, .security-note { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <!-- Sisi Kiri — Brand -->
+    <div class="brand-side">
+        <div class="circle-1"></div>
+        <div class="circle-2"></div>
+        <div class="brand-content">
+            <div class="logo-wrap">
+                <div class="logo-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="logo-text">IrisBela AI</span>
+            </div>
+            <h1>Selamat Datang Kembali</h1>
+            <p>Masuk ke akun Anda dan akses seluruh fitur kecerdasan buatan IrisBela yang siap membantu pekerjaan Anda menjadi lebih cepat & cerdas.</p>
+        </div>
+        <div class="stats-wrap">
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-num">50+</div>
+                    <div class="stat-label">Model AI Tersedia</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">10rb+</div>
+                    <div class="stat-label">Pengguna Aktif</div>
+                </div>
+            </div>
+            <div class="security-note">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span>Keamanan data terenkripsi end-to-end</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sisi Kanan — Form Login -->
+    <div class="form-side">
+        <div class="form-header">
+            <h2>Masuk ke Akun</h2>
+            <p>Silakan masukkan detail akun Anda</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="form-label">Alamat Email</label>
+                <div class="input-wrap">
+                    <span class="input-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="4" width="20" height="16" rx="2"/>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                        </svg>
+                    </span>
+                    <input type="email" id="email" class="form-input" placeholder="nama@email.com" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Kata Sandi</label>
+                <div class="input-wrap">
+                    <span class="input-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                    </span>
+                    <input type="password" id="password" class="form-input" placeholder="Masukkan kata sandi" required>
+                    <button type="button" class="password-toggle" id="togglePassword">
+                        <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" id="remember">
+                <label for="remember">Ingat saya di perangkat ini</label>
+            </div>
+
+            <button type="submit" class="btn-login" id="loginBtn">Masuk ke Akun</button>
+
+            <div id="errorMsg" class="msg-box msg-error"></div>
+            <div id="successMsg" class="msg-box msg-success"></div>
+        </form>
+
+        <p class="register-link">
+            Belum punya akun? <a href="#">Daftar Sekarang</a>
+        </p>
+    </div>
+</div>
+
+<script>
+(function() {
+    // ==============================================
+    // 🔐 DAFTAR AKUN + KREDIT PER PENGGUNA
+    // Setiap akun punya "kredit" sendiri
+    // ==============================================
+    const DAFTAR_AKUN = [
+        { email: "admin@irisbela-ai.com", sandi: "admin123", kredit: 5000 },
+        { email: "anda@email.com", sandi: "kataSandiAnda", kredit: 1000 },
+        { email: "user1@irisbela.com", sandi: "user123", kredit: 500 },
+        // Tambah akun baru di bawah, format:
+        // { email: "email@anda.com", sandi: "sandi123", kredit: 1000 },
+    ];
+
+    const PROJECT_URL = '/'; // Halaman utama setelah login
+
+    // Fungsi untuk menyimpan/mengambil data kredit dari localStorage
+    function simpanKredit(email, jumlahKredit) {
+        const dataPengguna = JSON.parse(localStorage.getItem('dataPengguna') || '{}');
+        dataPengguna[email] = { kredit: jumlahKredit, terakhirLogin: new Date().toISOString() };
+        localStorage.setItem('dataPengguna', JSON.stringify(dataPengguna));
+    }
+
+    function ambilKredit(email) {
+        const dataPengguna = JSON.parse(localStorage.getItem('dataPengguna') || '{}');
+        // Jika sudah ada data tersimpan → pakai yang tersimpan
+        if (dataPengguna[email]) {
+            return dataPengguna[email].kredit;
+        }
+        // Jika belum ada → ambil dari daftar akun awal & simpan
+        const akun = DAFTAR_AKUN.find(a => a.email === email);
+        if (akun) {
+            simpanKredit(email, akun.kredit);
+            return akun.kredit;
+        }
+        return 0;
+    }
+
+    // Tampilkan / Sembunyikan Kata Sandi
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+    let passwordVisible = false;
+
+    togglePassword.addEventListener('click', function() {
+        passwordVisible = !passwordVisible;
+        passwordInput.type = passwordVisible ? 'text' : 'password';
+        eyeIcon.innerHTML = passwordVisible 
+            ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+            : '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>';
+    });
+
+    // Form Login
+    const form = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMsg = document.getElementById('errorMsg');
+    const successMsg = document.getElementById('successMsg');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        // Sembunyikan pesan sebelumnya
+        errorMsg.style.display = 'none';
+        successMsg.style.display = 'none';
+
+        // Validasi dasar
+        if (!email || !password) {
+            errorMsg.textContent = 'Mohon isi email dan kata sandi';
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            errorMsg.textContent = 'Format email tidak valid';
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        // 🔍 CEK EMAIL & SANDI DI DAFTAR AKUN
+        const akunDitemukan = DAFTAR_AKUN.find(akun => 
+            akun.email === email && akun.sandi === password
+        );
+
+        if (!akunDitemukan) {
+            errorMsg.textContent = 'Email atau kata sandi salah!';
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        // ✅ BERHASIL LOGIN — Ambil & simpan kredit pengguna
+        const kreditPengguna = ambilKredit(email);
+        
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Memproses...';
+
+        setTimeout(function() {
+            successMsg.innerHTML = `✅ Berhasil! Kredit Anda: <strong>${kreditPengguna.toLocaleString()}</strong><br>Mengalihkan ke IrisBela AI...`;
+            successMsg.style.display = 'block';
+            loginBtn.textContent = 'Masuk ke Akun';
+            loginBtn.disabled = false;
+
+            // Simpan sesi login & data kredit
+            sessionStorage.setItem('sudahLogin', 'true');
+            sessionStorage.setItem('emailPengguna', email);
+            sessionStorage.setItem('kreditPengguna', kreditPengguna);
+
+            // Alihkan ke halaman utama
+            setTimeout(function() {
+                window.location.href = PROJECT_URL;
+            }, 1500);
+        }, 1200);
+    });
+})();
+</script>
+
+</body>
+</html>
