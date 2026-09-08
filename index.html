@@ -1,0 +1,2356 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Irisbela AI V6.4</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f1115;
+    color: #f4f4f4;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #999;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: #181b21;
+    border: 1px solid #292d35;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 19px;
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    color: #bbb;
+    font-size: 14px;
+}
+
+input,
+textarea,
+select {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border-radius: 9px;
+
+    border: 1px solid #363b45;
+
+    background: #101217;
+
+    color: white;
+
+    outline: none;
+
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+button {
+
+    width: 100%;
+
+    padding: 13px;
+
+    margin-top: 10px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: #2d6cdf;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button.secondary {
+    background: #30343d;
+}
+
+button.danger {
+    background: #a83232;
+}
+
+button.success {
+    background: #28784b;
+}
+
+.grid {
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(2, 1fr);
+
+    gap: 12px;
+
+}
+
+.preview {
+
+    width: 100%;
+
+    max-height: 350px;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+
+    margin-top: 10px;
+
+    background: #08090c;
+
+    display: none;
+
+}
+
+.status {
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: #101217;
+
+    color: #aaa;
+
+    margin-top: 10px;
+
+    font-size: 13px;
+
+}
+
+.profile {
+
+    min-height: 180px;
+
+}
+
+.memory {
+
+    padding: 10px;
+
+    background: #11141a;
+
+    border-radius: 8px;
+
+    margin-top: 10px;
+
+    font-size: 13px;
+
+    color: #aaa;
+
+}
+
+.timeline-controls {
+
+    display: grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap: 10px;
+
+}
+
+.scene-card {
+
+    border: 1px solid #353a44;
+
+    border-radius: 12px;
+
+    padding: 15px;
+
+    margin-top: 15px;
+
+    background: #12151a;
+
+}
+
+.scene-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+.scene-number {
+
+    font-weight: bold;
+
+    font-size: 17px;
+
+}
+
+.scene-actions {
+
+    display: flex;
+
+    gap: 5px;
+
+}
+
+.scene-actions button {
+
+    width: auto;
+
+    padding: 7px 10px;
+
+    margin: 0;
+
+}
+
+.prompt-box {
+
+    min-height: 220px;
+
+    white-space: pre-wrap;
+
+    line-height: 1.5;
+
+}
+
+.small {
+    font-size: 12px;
+    color: #888;
+}
+
+hr {
+
+    border: 0;
+
+    border-top:
+    1px solid #292d35;
+
+    margin: 18px 0;
+
+}
+
+@media(max-width:700px) {
+
+    .grid,
+    .timeline-controls {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .container {
+        padding: 12px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>IRISBELA AI</h1>
+
+<div class="subtitle">
+Prompt Generator • Character Memory • Product Memory • Scene Timeline
+</div>
+
+
+<!-- PRESET -->
+
+<div class="card">
+
+<h2>🎬 Preset</h2>
+
+<select id="preset">
+
+<option value="custom">Custom</option>
+
+<option value="tiktok">
+TikTok Affiliate
+</option>
+
+<option value="vlog">
+Daily Vlog
+</option>
+
+<option value="fashion">
+Fashion Showcase
+</option>
+
+<option value="product">
+Product Showcase
+</option>
+
+<option value="cinematic">
+Cinematic
+</option>
+
+</select>
+
+</div>
+
+
+<!-- CONCEPT -->
+
+<div class="card">
+
+<h2>💡 Konsep</h2>
+
+<label>Ide / Cerita</label>
+
+<textarea
+id="concept"
+placeholder="Contoh: seorang wanita membuat video promosi blouse di dalam kamar pada pagi hari..."
+></textarea>
+
+<div class="timeline-controls">
+
+<div>
+
+<label>Total Durasi</label>
+
+<input
+id="totalDuration"
+value="24 detik"
+>
+
+</div>
+
+<div>
+
+<label>Jumlah Scene</label>
+
+<input
+id="sceneCount"
+type="number"
+min="1"
+max="20"
+value="3"
+>
+
+</div>
+
+</div>
+
+<button
+onclick="autoBuildTimeline()"
+>
+✨ AUTO BUILD TIMELINE
+</button>
+
+</div>
+
+
+<!-- CHARACTER -->
+
+<div class="card">
+
+<h2>👤 Character Reference</h2>
+
+<input
+type="file"
+id="characterImage"
+accept="image/*"
+>
+
+<img
+id="characterPreview"
+class="preview"
+>
+
+<button
+onclick="analyzeCharacter()"
+>
+🔍 ANALISIS FOTO KARAKTER
+</button>
+
+<label>Character Profile</label>
+
+<textarea
+id="characterProfile"
+class="profile"
+placeholder="Hasil analisis karakter..."
+></textarea>
+
+<button
+class="success"
+onclick="saveCharacter()"
+>
+💾 SAVE CHARACTER
+</button>
+
+<button
+class="secondary"
+onclick="loadCharacter()"
+>
+📂 LOAD CHARACTER
+</button>
+
+<button
+class="danger"
+onclick="deleteCharacter()"
+>
+🗑 DELETE CHARACTER MEMORY
+</button>
+
+<div
+id="characterMemory"
+class="memory"
+>
+Belum ada Character Memory.
+</div>
+
+<label>
+Identity Lock
+</label>
+
+<select id="identityLock">
+
+<option value="ON">
+ON
+</option>
+
+<option value="OFF">
+OFF
+</option>
+
+</select>
+
+</div>
+
+
+<!-- PRODUCT -->
+
+<div class="card">
+
+<h2>🛍 Product Reference</h2>
+
+<input
+type="file"
+id="productImage"
+accept="image/*"
+>
+
+<img
+id="productPreview"
+class="preview"
+>
+
+<button
+onclick="analyzeProduct()"
+>
+🔍 ANALISIS FOTO PRODUK
+</button>
+
+<label>Product Profile</label>
+
+<textarea
+id="productProfile"
+class="profile"
+placeholder="Hasil analisis produk..."
+></textarea>
+
+<button
+class="success"
+onclick="saveProduct()"
+>
+💾 SAVE PRODUCT
+</button>
+
+<button
+class="secondary"
+onclick="loadProduct()"
+>
+📂 LOAD PRODUCT
+</button>
+
+<button
+class="danger"
+onclick="deleteProduct()"
+>
+🗑 DELETE PRODUCT MEMORY
+</button>
+
+<div
+id="productMemory"
+class="memory"
+>
+Belum ada Product Memory.
+</div>
+
+<label>
+Product Lock
+</label>
+
+<select id="productLock">
+
+<option value="ON">
+ON
+</option>
+
+<option value="OFF">
+OFF
+</option>
+
+</select>
+
+</div>
+
+
+<!-- TIMELINE -->
+
+<div class="card">
+
+<h2>🎞 Scene Timeline</h2>
+
+<div class="small">
+Setiap scene memiliki kamera, gerakan, ekspresi,
+dialogue dan transisi sendiri.
+</div>
+
+<div id="timeline"></div>
+
+<button
+class="success"
+onclick="addScene()"
+>
+＋ TAMBAH SCENE
+</button>
+
+<button
+onclick="generateAllPrompts()"
+>
+🚀 GENERATE ALL PROMPTS
+</button>
+
+<button
+class="secondary"
+onclick="copyAllPrompts()"
+>
+📋 COPY ALL PROMPTS
+</button>
+
+</div>
+
+
+<!-- GLOBAL VISUAL -->
+
+<div class="card">
+
+<h2>🎨 Global Visual</h2>
+
+<div class="grid">
+
+<div>
+
+<label>Pencahayaan</label>
+
+<select id="lighting">
+
+<option>
+Pencahayaan super terang natural
+</option>
+
+<option>
+Pencahayaan pagi hari
+</option>
+
+<option>
+Pencahayaan siang hari
+</option>
+
+<option>
+Golden hour
+</option>
+
+<option>
+Pencahayaan malam sinematik
+</option>
+
+<option>
+Studio lighting
+</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Visual Style</label>
+
+<select id="visualStyle">
+
+<option>
+Photorealistic
+</option>
+
+<option>
+Cinematic realistic
+</option>
+
+<option>
+Luxury commercial
+</option>
+
+<option>
+TikTok realistic
+</option>
+
+<option>
+Daily vlog realistic
+</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Kualitas</label>
+
+<select id="quality">
+
+<option>
+4K Ultra HD, sangat tajam dan realistis
+</option>
+
+<option>
+8K photorealistic
+</option>
+
+<option>
+Full HD realistic
+</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>Aspect Ratio</label>
+
+<select id="aspectRatio">
+
+<option>9:16</option>
+
+<option>16:9</option>
+
+<option>1:1</option>
+
+</select>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- NEGATIVE -->
+
+<div class="card">
+
+<h2>🚫 Negative Prompt</h2>
+
+<textarea id="negativePrompt">
+
+wajah berubah, identitas karakter berubah,
+outfit berubah, produk berubah,
+warna produk berubah, bentuk produk berubah,
+tangan cacat, jari berlebih, jari hilang,
+anatomi buruk, proporsi tubuh tidak realistis,
+kamera tidak konsisten, perspektif salah,
+objek tiba-tiba muncul, objek tiba-tiba hilang,
+gerakan patah-patah, blur berlebihan,
+distorsi, watermark, teks, logo acak,
+low quality, CGI, kartun
+
+</textarea>
+
+</div>
+
+
+<!-- RESULT -->
+
+<div class="card">
+
+<h2>📝 Semua Prompt</h2>
+
+<textarea
+id="allPrompts"
+class="prompt-box"
+placeholder="Prompt semua scene akan muncul di sini..."
+></textarea>
+
+<button
+class="secondary"
+onclick="copyAllPrompts()"
+>
+📋 COPY PROMPT
+</button>
+
+</div>
+
+
+<div
+id="status"
+class="status"
+>
+Irisbela AI V6.4 siap digunakan.
+</div>
+
+</div>
+
+
+<script>
+
+let timelineData = [];
+
+
+/* =========================
+IMAGE PREVIEW
+========================= */
+
+document
+.getElementById("characterImage")
+.addEventListener("change", function(e) {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const url =
+        URL.createObjectURL(file);
+
+    const preview =
+        document.getElementById(
+            "characterPreview"
+        );
+
+    preview.src = url;
+
+    preview.style.display = "block";
+
+});
+
+
+document
+.getElementById("productImage")
+.addEventListener("change", function(e) {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const url =
+        URL.createObjectURL(file);
+
+    const preview =
+        document.getElementById(
+            "productPreview"
+        );
+
+    preview.src = url;
+
+    preview.style.display = "block";
+
+});
+
+
+/* =========================
+STATUS
+========================= */
+
+function status(text) {
+
+    document
+        .getElementById("status")
+        .textContent = text;
+
+}
+
+
+/* =========================
+IMAGE COMPRESS
+========================= */
+
+function compressImage(file) {
+
+    return new Promise((resolve, reject) => {
+
+        const reader =
+            new FileReader();
+
+        reader.onload = function() {
+
+            const img =
+                new Image();
+
+            img.onload = function() {
+
+                const maxSize = 1600;
+
+                let width =
+                    img.width;
+
+                let height =
+                    img.height;
+
+                if (width > maxSize) {
+
+                    height =
+                        height *
+                        maxSize /
+                        width;
+
+                    width =
+                        maxSize;
+
+                }
+
+                if (height > maxSize) {
+
+                    width =
+                        width *
+                        maxSize /
+                        height;
+
+                    height =
+                        maxSize;
+
+                }
+
+                const canvas =
+                    document.createElement(
+                        "canvas"
+                    );
+
+                canvas.width =
+                    width;
+
+                canvas.height =
+                    height;
+
+                const ctx =
+                    canvas.getContext(
+                        "2d"
+                    );
+
+                ctx.drawImage(
+                    img,
+                    0,
+                    0,
+                    width,
+                    height
+                );
+
+                resolve(
+                    canvas.toDataURL(
+                        "image/jpeg",
+                        0.82
+                    )
+                    .split(",")[1]
+                );
+
+            };
+
+            img.onerror = reject;
+
+            img.src =
+                reader.result;
+
+        };
+
+        reader.onerror = reject;
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+
+/* =========================
+CHARACTER ANALYSIS
+========================= */
+
+async function analyzeCharacter() {
+
+    const file =
+        document
+        .getElementById(
+            "characterImage"
+        )
+        .files[0];
+
+    if (!file) {
+
+        alert(
+            "Upload foto karakter terlebih dahulu."
+        );
+
+        return;
+
+    }
+
+    status(
+        "🔍 Menganalisis karakter..."
+    );
+
+    try {
+
+        const image =
+            await compressImage(file);
+
+        const response =
+            await fetch(
+                "/api/analyze",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        image: image,
+                        mimeType:
+                            "image/jpeg",
+                        type:
+                            "character"
+                    })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Analisis gagal."
+            );
+
+        }
+
+        document
+        .getElementById(
+            "characterProfile"
+        )
+        .value =
+            data.result || "";
+
+        status(
+            "✅ Analisis karakter berhasil."
+        );
+
+    } catch(error) {
+
+        status(
+            "❌ " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================
+PRODUCT ANALYSIS
+========================= */
+
+async function analyzeProduct() {
+
+    const file =
+        document
+        .getElementById(
+            "productImage"
+        )
+        .files[0];
+
+    if (!file) {
+
+        alert(
+            "Upload foto produk terlebih dahulu."
+        );
+
+        return;
+
+    }
+
+    status(
+        "🔍 Menganalisis produk..."
+    );
+
+    try {
+
+        const image =
+            await compressImage(file);
+
+        const response =
+            await fetch(
+                "/api/analyze",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        image: image,
+                        mimeType:
+                            "image/jpeg",
+                        type:
+                            "product"
+                    })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Analisis gagal."
+            );
+
+        }
+
+        document
+        .getElementById(
+            "productProfile"
+        )
+        .value =
+            data.result || "";
+
+        status(
+            "✅ Analisis produk berhasil."
+        );
+
+    } catch(error) {
+
+        status(
+            "❌ " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================
+MEMORY
+========================= */
+
+function saveCharacter() {
+
+    const profile =
+        document
+        .getElementById(
+            "characterProfile"
+        )
+        .value
+        .trim();
+
+    if (!profile) {
+
+        alert(
+            "Character Profile masih kosong."
+        );
+
+        return;
+
+    }
+
+    localStorage.setItem(
+        "irisbela_character",
+        JSON.stringify({
+
+            profile: profile,
+
+            savedAt:
+                new Date()
+                .toLocaleString(
+                    "id-ID"
+                )
+
+        })
+    );
+
+    updateMemoryStatus();
+
+    status(
+        "💾 Character Memory tersimpan."
+    );
+
+}
+
+
+function loadCharacter() {
+
+    const data =
+        localStorage.getItem(
+            "irisbela_character"
+        );
+
+    if (!data) {
+
+        alert(
+            "Belum ada Character Memory."
+        );
+
+        return;
+
+    }
+
+    const parsed =
+        JSON.parse(data);
+
+    document
+    .getElementById(
+        "characterProfile"
+    )
+    .value =
+        parsed.profile || "";
+
+    document
+    .getElementById(
+        "identityLock"
+    )
+    .value =
+        "ON";
+
+    status(
+        "📂 Character Memory dimuat."
+    );
+
+}
+
+
+function deleteCharacter() {
+
+    localStorage.removeItem(
+        "irisbela_character"
+    );
+
+    updateMemoryStatus();
+
+    status(
+        "🗑 Character Memory dihapus."
+    );
+
+}
+
+
+function saveProduct() {
+
+    const profile =
+        document
+        .getElementById(
+            "productProfile"
+        )
+        .value
+        .trim();
+
+    if (!profile) {
+
+        alert(
+            "Product Profile masih kosong."
+        );
+
+        return;
+
+    }
+
+    localStorage.setItem(
+        "irisbela_product",
+        JSON.stringify({
+
+            profile: profile,
+
+            savedAt:
+                new Date()
+                .toLocaleString(
+                    "id-ID"
+                )
+
+        })
+    );
+
+    updateMemoryStatus();
+
+    status(
+        "💾 Product Memory tersimpan."
+    );
+
+}
+
+
+function loadProduct() {
+
+    const data =
+        localStorage.getItem(
+            "irisbela_product"
+        );
+
+    if (!data) {
+
+        alert(
+            "Belum ada Product Memory."
+        );
+
+        return;
+
+    }
+
+    const parsed =
+        JSON.parse(data);
+
+    document
+    .getElementById(
+        "productProfile"
+    )
+    .value =
+        parsed.profile || "";
+
+    document
+    .getElementById(
+        "productLock"
+    )
+    .value =
+        "ON";
+
+    status(
+        "📂 Product Memory dimuat."
+    );
+
+}
+
+
+function deleteProduct() {
+
+    localStorage.removeItem(
+        "irisbela_product"
+    );
+
+    updateMemoryStatus();
+
+    status(
+        "🗑 Product Memory dihapus."
+    );
+
+}
+
+
+function updateMemoryStatus() {
+
+    const character =
+        localStorage.getItem(
+            "irisbela_character"
+        );
+
+    const product =
+        localStorage.getItem(
+            "irisbela_product"
+        );
+
+    document
+    .getElementById(
+        "characterMemory"
+    )
+    .textContent =
+        character
+        ? "🟢 Character Memory tersedia."
+        : "Belum ada Character Memory.";
+
+    document
+    .getElementById(
+        "productMemory"
+    )
+    .textContent =
+        product
+        ? "🟢 Product Memory tersedia."
+        : "Belum ada Product Memory.";
+
+}
+
+
+/* =========================
+ADD SCENE
+========================= */
+
+function addScene(data = null) {
+
+    const scene = {
+
+        sceneNumber:
+            timelineData.length + 1,
+
+        title:
+            data?.title ||
+            "Scene " +
+            (timelineData.length + 1),
+
+        duration:
+            data?.duration ||
+            "8 detik",
+
+        location:
+            data?.location ||
+            "",
+
+        time:
+            data?.time ||
+            "",
+
+        activity:
+            data?.activity ||
+            "",
+
+        characterMovement:
+            data?.characterMovement ||
+            "",
+
+        handMovement:
+            data?.handMovement ||
+            "",
+
+        expression:
+            data?.expression ||
+            "",
+
+        cameraAngle:
+            data?.cameraAngle ||
+            "",
+
+        cameraMovement:
+            data?.cameraMovement ||
+            "",
+
+        cameraPosition:
+            data?.cameraPosition ||
+            "",
+
+        cameraFocus:
+            data?.cameraFocus ||
+            "",
+
+        dialogue:
+            data?.dialogue ||
+            "Tidak ada dialog.",
+
+        voice:
+            data?.voice ||
+            "Tidak ada suara karakter.",
+
+        transition:
+            data?.transition ||
+            "",
+
+        prompt:
+            data?.prompt ||
+            ""
+
+    };
+
+    timelineData.push(scene);
+
+    renderTimeline();
+
+}
+
+
+/* =========================
+RENDER TIMELINE
+========================= */
+
+function renderTimeline() {
+
+    const container =
+        document
+        .getElementById(
+            "timeline"
+        );
+
+    container.innerHTML = "";
+
+    timelineData.forEach(
+        (scene, index) => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+            card.className =
+                "scene-card";
+
+            card.innerHTML = `
+
+<div class="scene-header">
+
+<div class="scene-number">
+🎬 Scene ${index + 1}
+</div>
+
+<div class="scene-actions">
+
+<button
+class="secondary"
+onclick="duplicateScene(${index})"
+>
+Copy
+</button>
+
+<button
+class="danger"
+onclick="removeScene(${index})"
+>
+Hapus
+</button>
+
+</div>
+
+</div>
+
+<label>Judul Scene</label>
+
+<input
+value="${escapeHTML(scene.title)}"
+oninput="updateScene(${index}, 'title', this.value)"
+>
+
+<label>Durasi</label>
+
+<input
+value="${escapeHTML(scene.duration)}"
+oninput="updateScene(${index}, 'duration', this.value)"
+>
+
+<label>Lokasi</label>
+
+<input
+value="${escapeHTML(scene.location)}"
+oninput="updateScene(${index}, 'location', this.value)"
+>
+
+<label>Waktu</label>
+
+<input
+value="${escapeHTML(scene.time)}"
+oninput="updateScene(${index}, 'time', this.value)"
+>
+
+<label>Aktivitas Utama</label>
+
+<textarea
+oninput="updateScene(${index}, 'activity', this.value)"
+>${escapeHTML(scene.activity)}</textarea>
+
+<label>Gerakan Karakter</label>
+
+<textarea
+oninput="updateScene(${index}, 'characterMovement', this.value)"
+>${escapeHTML(scene.characterMovement)}</textarea>
+
+<label>Gerakan Tangan</label>
+
+<textarea
+oninput="updateScene(${index}, 'handMovement', this.value)"
+>${escapeHTML(scene.handMovement)}</textarea>
+
+<label>Ekspresi</label>
+
+<input
+value="${escapeHTML(scene.expression)}"
+oninput="updateScene(${index}, 'expression', this.value)"
+>
+
+<hr>
+
+<h3>📷 Kamera</h3>
+
+<label>Camera Angle</label>
+
+<input
+value="${escapeHTML(scene.cameraAngle)}"
+oninput="updateScene(${index}, 'cameraAngle', this.value)"
+>
+
+<label>Camera Movement</label>
+
+<input
+value="${escapeHTML(scene.cameraMovement)}"
+oninput="updateScene(${index}, 'cameraMovement', this.value)"
+>
+
+<label>Camera Position</label>
+
+<input
+value="${escapeHTML(scene.cameraPosition)}"
+oninput="updateScene(${index}, 'cameraPosition', this.value)"
+>
+
+<label>Camera Focus</label>
+
+<input
+value="${escapeHTML(scene.cameraFocus)}"
+oninput="updateScene(${index}, 'cameraFocus', this.value)"
+>
+
+<hr>
+
+<h3>🎙 Audio</h3>
+
+<label>Dialog</label>
+
+<textarea
+oninput="updateScene(${index}, 'dialogue', this.value)"
+>${escapeHTML(scene.dialogue)}</textarea>
+
+<label>Voice</label>
+
+<input
+value="${escapeHTML(scene.voice)}"
+oninput="updateScene(${index}, 'voice', this.value)"
+>
+
+<label>Transition</label>
+
+<input
+value="${escapeHTML(scene.transition)}"
+oninput="updateScene(${index}, 'transition', this.value)"
+>
+
+<label>Generated Prompt</label>
+
+<textarea
+readonly
+class="prompt-box"
+>${escapeHTML(scene.prompt)}</textarea>
+
+`;
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+UPDATE SCENE
+========================= */
+
+function updateScene(
+    index,
+    field,
+    value
+) {
+
+    if (
+        timelineData[index]
+    ) {
+
+        timelineData[index][field] =
+            value;
+
+    }
+
+}
+
+
+/* =========================
+REMOVE
+========================= */
+
+function removeScene(index) {
+
+    timelineData.splice(
+        index,
+        1
+    );
+
+    timelineData.forEach(
+        (scene, i) => {
+
+            scene.sceneNumber =
+                i + 1;
+
+        }
+    );
+
+    renderTimeline();
+
+}
+
+
+/* =========================
+DUPLICATE
+========================= */
+
+function duplicateScene(index) {
+
+    const original =
+        timelineData[index];
+
+    const copy =
+        JSON.parse(
+            JSON.stringify(
+                original
+            )
+        );
+
+    copy.title =
+        original.title +
+        " Copy";
+
+    timelineData.splice(
+        index + 1,
+        0,
+        copy
+    );
+
+    timelineData.forEach(
+        (scene, i) => {
+
+            scene.sceneNumber =
+                i + 1;
+
+        }
+    );
+
+    renderTimeline();
+
+}
+
+
+/* =========================
+AUTO BUILD TIMELINE
+========================= */
+
+async function autoBuildTimeline() {
+
+    const idea =
+        document
+        .getElementById(
+            "concept"
+        )
+        .value
+        .trim();
+
+    if (!idea) {
+
+        alert(
+            "Masukkan ide atau cerita terlebih dahulu."
+        );
+
+        return;
+
+    }
+
+    status(
+        "✨ AI sedang membangun timeline..."
+    );
+
+    const totalDuration =
+        document
+        .getElementById(
+            "totalDuration"
+        )
+        .value;
+
+    const sceneCount =
+        document
+        .getElementById(
+            "sceneCount"
+        )
+        .value;
+
+    const characterProfile =
+        document
+        .getElementById(
+            "characterProfile"
+        )
+        .value;
+
+    const productProfile =
+        document
+        .getElementById(
+            "productProfile"
+        )
+        .value;
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/timeline",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                    JSON.stringify({
+
+                        idea:
+                            idea,
+
+                        totalDuration:
+                            totalDuration,
+
+                        sceneCount:
+                            sceneCount,
+
+                        characterProfile:
+                            characterProfile,
+
+                        productProfile:
+                            productProfile
+
+                    })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Timeline gagal dibuat."
+            );
+
+        }
+
+        if (
+            !data.result ||
+            !Array.isArray(
+                data.result.scenes
+            )
+        ) {
+
+            throw new Error(
+                "Format timeline tidak valid."
+            );
+
+        }
+
+        timelineData =
+            data.result.scenes.map(
+                (scene, index) => ({
+
+                    sceneNumber:
+                        index + 1,
+
+                    title:
+                        scene.title ||
+                        "Scene " +
+                        (index + 1),
+
+                    duration:
+                        scene.duration ||
+                        "8 detik",
+
+                    location:
+                        scene.location ||
+                        "",
+
+                    time:
+                        scene.time ||
+                        "",
+
+                    activity:
+                        scene.activity ||
+                        "",
+
+                    characterMovement:
+                        scene.characterMovement ||
+                        "",
+
+                    handMovement:
+                        scene.handMovement ||
+                        "",
+
+                    expression:
+                        scene.expression ||
+                        "",
+
+                    cameraAngle:
+                        scene.cameraAngle ||
+                        "",
+
+                    cameraMovement:
+                        scene.cameraMovement ||
+                        "",
+
+                    cameraPosition:
+                        scene.cameraPosition ||
+                        "",
+
+                    cameraFocus:
+                        scene.cameraFocus ||
+                        "",
+
+                    dialogue:
+                        scene.dialogue ||
+                        "Tidak ada dialog.",
+
+                    voice:
+                        scene.voice ||
+                        "Tidak ada suara karakter.",
+
+                    transition:
+                        scene.transition ||
+                        "",
+
+                    prompt:
+                        scene.prompt ||
+                        ""
+
+                })
+            );
+
+        renderTimeline();
+
+        status(
+            "✅ Timeline berhasil dibuat: " +
+            timelineData.length +
+            " scene."
+        );
+
+    } catch(error) {
+
+        status(
+            "❌ " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================
+GENERATE ALL PROMPTS
+========================= */
+
+async function generateAllPrompts() {
+
+    if (
+        timelineData.length === 0
+    ) {
+
+        alert(
+            "Belum ada scene."
+        );
+
+        return;
+
+    }
+
+    const character =
+        document
+        .getElementById(
+            "characterProfile"
+        )
+        .value
+        .trim();
+
+    const product =
+        document
+        .getElementById(
+            "productProfile"
+        )
+        .value
+        .trim();
+
+    const identityLock =
+        document
+        .getElementById(
+            "identityLock"
+        )
+        .value;
+
+    const productLock =
+        document
+        .getElementById(
+            "productLock"
+        )
+        .value;
+
+    const lighting =
+        document
+        .getElementById(
+            "lighting"
+        )
+        .value;
+
+    const visualStyle =
+        document
+        .getElementById(
+            "visualStyle"
+        )
+        .value;
+
+    const quality =
+        document
+        .getElementById(
+            "quality"
+        )
+        .value;
+
+    const aspectRatio =
+        document
+        .getElementById(
+            "aspectRatio"
+        )
+        .value;
+
+    const negative =
+        document
+        .getElementById(
+            "negativePrompt"
+        )
+        .value;
+
+    status(
+        "🚀 Membuat prompt semua scene..."
+    );
+
+    let output = "";
+
+    timelineData.forEach(
+        (scene, index) => {
+
+            const prompt = `
+
+SCENE ${index + 1} — ${scene.title}
+
+Durasi:
+${scene.duration}
+
+IDENTITAS KARAKTER:
+${character || "Tidak ada character profile."}
+
+IDENTITY LOCK:
+${identityLock}
+
+PRODUK:
+${product || "Tidak ada product profile."}
+
+PRODUCT LOCK:
+${productLock}
+
+LOKASI:
+${scene.location}
+
+WAKTU:
+${scene.time}
+
+AKTIVITAS UTAMA:
+${scene.activity}
+
+GERAKAN KARAKTER:
+${scene.characterMovement}
+
+GERAKAN TANGAN:
+${scene.handMovement}
+
+EKSPRESI:
+${scene.expression}
+
+KAMERA:
+Angle: ${scene.cameraAngle}
+Movement: ${scene.cameraMovement}
+Position: ${scene.cameraPosition}
+Focus: ${scene.cameraFocus}
+
+DIALOG:
+${scene.dialogue}
+
+VOICE:
+${scene.voice}
+
+TRANSISI:
+${scene.transition}
+
+PENCAHAYAAN:
+${lighting}
+
+VISUAL STYLE:
+${visualStyle}
+
+KUALITAS:
+${quality}
+
+ASPECT RATIO:
+${aspectRatio}
+
+CONTINUITY:
+
+Pertahankan identitas karakter secara konsisten.
+Pertahankan wajah, rambut, bentuk tubuh dan outfit.
+Jangan mengubah identitas karakter.
+
+${product
+? "Pertahankan bentuk, warna, desain dan detail produk secara konsisten."
+: ""}
+
+Pertahankan kontinuitas lokasi,
+arah karakter, posisi kamera,
+perspektif dan pencahayaan.
+
+Jika terdapat kendaraan,
+pertahankan konfigurasi kendaraan Indonesia
+dengan posisi pengemudi di sisi kiri.
+
+Gerakan harus realistis,
+anatomi manusia harus benar,
+tangan dan jari harus natural.
+
+NEGATIVE PROMPT:
+${negative}
+
+HASIL:
+Video/image photorealistic,
+realistic anatomy,
+natural movement,
+accurate perspective,
+high detail,
+consistent character identity,
+consistent product identity,
+${quality},
+${aspectRatio}.
+
+`;
+
+            scene.prompt =
+                prompt.trim();
+
+            output +=
+                prompt.trim() +
+                "\n\n" +
+                "=".repeat(70) +
+                "\n\n";
+
+        }
+    );
+
+    renderTimeline();
+
+    document
+    .getElementById(
+        "allPrompts"
+    )
+    .value =
+        output.trim();
+
+    status(
+        "✅ Semua prompt berhasil dibuat."
+    );
+
+}
+
+
+/* =========================
+COPY
+========================= */
+
+async function copyAllPrompts() {
+
+    const text =
+        document
+        .getElementById(
+            "allPrompts"
+        )
+        .value;
+
+    if (!text) {
+
+        alert(
+            "Belum ada prompt."
+        );
+
+        return;
+
+    }
+
+    try {
+
+        await navigator.clipboard.writeText(
+            text
+        );
+
+        status(
+            "📋 Semua prompt berhasil disalin."
+        );
+
+    } catch(error) {
+
+        status(
+            "❌ Gagal menyalin prompt."
+        );
+
+    }
+
+}
+
+
+/* =========================
+ESCAPE HTML
+========================= */
+
+function escapeHTML(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================
+PRESET ENGINE
+========================= */
+
+document
+.getElementById("preset")
+.addEventListener(
+    "change",
+    applyPreset
+);
+
+
+function applyPreset() {
+
+    const preset =
+        document
+        .getElementById(
+            "preset"
+        )
+        .value;
+
+    const lighting =
+        document
+        .getElementById(
+            "lighting"
+        );
+
+    const style =
+        document
+        .getElementById(
+            "visualStyle"
+        );
+
+    const quality =
+        document
+        .getElementById(
+            "quality"
+        );
+
+    const ratio =
+        document
+        .getElementById(
+            "aspectRatio"
+        );
+
+    if (
+        preset === "tiktok"
+    ) {
+
+        lighting.value =
+            "Pencahayaan super terang natural";
+
+        style.value =
+            "TikTok realistic";
+
+        quality.value =
+            "4K Ultra HD, sangat tajam dan realistis";
+
+        ratio.value =
+            "9:16";
+
+    }
+
+    else if (
+        preset === "vlog"
+    ) {
+
+        lighting.value =
+            "Pencahayaan natural";
+
+        style.value =
+            "Daily vlog realistic";
+
+        quality.value =
+            "4K Ultra HD, sangat tajam dan realistis";
+
+        ratio.value =
+            "9:16";
+
+    }
+
+    else if (
+        preset === "fashion"
+    ) {
+
+        lighting.value =
+            "Studio lighting";
+
+        style.value =
+            "Luxury commercial";
+
+        quality.value =
+            "8K photorealistic";
+
+        ratio.value =
+            "9:16";
+
+    }
+
+    else if (
+        preset === "product"
+    ) {
+
+        lighting.value =
+            "Studio lighting";
+
+        style.value =
+            "Luxury commercial";
+
+        quality.value =
+            "8K photorealistic";
+
+        ratio.value =
+            "9:16";
+
+    }
+
+    else if (
+        preset === "cinematic"
+    ) {
+
+        lighting.value =
+            "Pencahayaan malam sinematik";
+
+        style.value =
+            "Cinematic realistic";
+
+        quality.value =
+            "8K photorealistic";
+
+        ratio.value =
+            "16:9";
+
+    }
+
+}
+
+
+/* =========================
+INITIAL SCENES
+========================= */
+
+addScene();
+
+addScene();
+
+addScene();
+
+updateMemoryStatus();
+
+</script>
+
+</body>
+
+</html>
